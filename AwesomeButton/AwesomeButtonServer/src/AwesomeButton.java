@@ -34,32 +34,29 @@ public class AwesomeButton {
 
 	public AwesomeButton() throws Exception {
 		this.GUI = new AwesomeButtonGUI(this);
-
-		if (!Lib.init(new FileInputStream(new File(SOUNDFILE))))
-			GUI.println("Failed to initialize sounds.");
-		this.blocked = Collections.synchronizedSet(new HashSet<InetAddress>());
-
-		(new FileRequestServer()).start();
-		this.socket = new DatagramSocket(PORT);
-		this.start();
+		init();
 	}
 
-	private void start() throws Exception {
-		byte[] in = new byte[1024];
-		GUI.println("Listening on "+InetAddress.getLocalHost()+":"+PORT);
+	private void init() throws Exception {
+		if (!Lib.init(SOUNDFILE))
+			GUI.println("Failed to initialize sounds.");
+		
+		this.blocked = Collections.synchronizedSet(new HashSet<InetAddress>());
 
+		//(new FileRequestServer()).start();
+		this.socket = new DatagramSocket(PORT);
+		GUI.println("Listening on "+InetAddress.getLocalHost()+":"+PORT);
+		
+		byte[] in = new byte[1024];
 		DatagramPacket p = new DatagramPacket(in, in.length);
 
-		while (running && this.socket != null) {
+		while (this.running && this.socket != null) {
 			try {
 				this.socket.receive(p);
-			} catch (Exception e) {	continue; }
+			} catch (Exception e) { continue; }
 
-
-			this.handleInput(p);
+			handleInput(p);
 		}
-		
-		this.socket.close();
 	}
 
 	private void handleInput(DatagramPacket p) throws Exception {

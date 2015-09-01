@@ -8,7 +8,13 @@ import java.util.TreeMap;
 public class Lib {
 	public static Map<String,Sound> SOUNDS = new TreeMap<String, Sound>();
 	
-	public static boolean init(InputStream stream) {
+	public static boolean init(String soundFile) {
+		try {
+			InputStream stream = new FileInputStream(new File(soundFile));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 		if (stream == null) return false;
 		
 		SOUNDS = new TreeMap<String, Sound>();
