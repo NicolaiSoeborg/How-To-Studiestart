@@ -15,6 +15,9 @@ Fork me
 Feel free to fork and extend the application with more awesome features. This was mostly coded in a few hours, so it could do with some improvements!
 
 
+This folder is forked from [mktange/AwesomeButton](https://github.com/mktange/AwesomeButton).
+
+
 Getting started
 ===============
 
