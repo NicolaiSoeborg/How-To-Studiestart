@@ -5,7 +5,7 @@
   <title>Badger, badger, badger, mushroom, mushroom!</title>
   <script type='text/javascript' src='jquery-2.1.4.min.js'></script>
   <style type='text/css'>
-    <!-- Ingen stil :/ -->
+    .draggable { cursor: move; }  /* Change mouse cursor */
   </style>
   
 <script type='text/javascript'>//<![CDATA[
@@ -29,8 +29,80 @@ function save() {
     //elm.style['font-size'] = $("#txtSize").val(); 
     $(elm).css('font-size', $("#txtSize").val()); // størrelse
 
-//console.log( $("#txtColor").val() );
     $(elm).css('fill', $("#txtColor").val()); // farve
+}
+
+
+// Returns a list of selected elements (so user can select front- and background at once).
+function getSelectedElements(evt) {
+    var BgAndFg = [$('#bgImg')[0],$('#fgImg')[0]];
+    if ($.inArray(evt.target, BgAndFg) != -1) {
+        // user has selected front- or background, so return both!
+        return BgAndFg;
+    }
+    return [evt.target]; // return list of one element
+}
+
+// Modificeret kode fra http://www.petercollingridge.co.uk/interactive-svg-components/draggable-svg-element
+var selectedElements = [];
+var currentMatrices = [];
+var currentX = 0;
+var currentY = 0;
+
+function selectElement(evt) {
+    selectedElements = [evt.target];
+
+    // Special case, if user selects front- or background then make sure to select both:
+    var fgAndBg = [ $('#fgImg')[0], $('#bgImg')[0] ];
+    if ( $.inArray(evt.target, fgAndBg) != -1) {
+        selectedElements = fgAndBg;
+    }
+
+    currentX = evt.clientX;
+    currentY = evt.clientY;
+    currentMatrices = [];
+    selectedElements.forEach(function(selectedElement) {
+        currentMatrices.push(selectedElement.getAttributeNS(null, "transform").slice(7, -1).split(' '));
+    });
+
+    currentMatrices.forEach(function(currentMatrix) {
+        for (var i = 0; i < currentMatrix.length; i++) {
+            currentMatrix[i] = parseFloat(currentMatrix[i]);
+        }
+    });
+
+    selectedElements.forEach(function(selectedElement) {
+        selectedElement.setAttributeNS(null, "onmousemove", "moveElement(evt)");
+        selectedElement.setAttributeNS(null, "onmouseout", "deselectElement(evt)");
+        selectedElement.setAttributeNS(null, "onmouseup", "deselectElement(evt)");
+    });
+}
+
+function moveElement(evt) {
+    var dx = evt.clientX - currentX;
+    var dy = evt.clientY - currentY;
+
+    currentMatrices.forEach(function(currentMatrix) {
+        currentMatrix[4] += dx;
+        currentMatrix[5] += dy;
+    });
+
+    for (var i = 0; i < selectedElements.length && currentMatrices.length; i++) {
+        selectedElements[i].setAttributeNS(null, "transform", "matrix(" + currentMatrices[i].join(' ') + ")");
+    }
+    currentX = evt.clientX;
+    currentY = evt.clientY;
+}
+
+function deselectElement(evt) {
+    selectedElements.forEach(function(selectedElement) {
+        if (selectedElement != 0) {
+            selectedElement.removeAttributeNS(null, "onmousemove");
+            selectedElement.removeAttributeNS(null, "onmouseout");
+            selectedElement.removeAttributeNS(null, "onmouseup");
+            selectedElement = 0;
+        }
+    });
 }
 
 // HJÆLPE METODER
@@ -62,8 +134,8 @@ function rgbToHex(rgb) {
                 <path id="lower-path" d="M 60, 150 c 0, 120, 180, 120, 180, 0" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
                 <path id="upper-path" d="M 80, 150 c 0, -100, 140, -100, 140, 0" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
             </defs>
-            <image xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG/640px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG" x="-50" y="-50" height="400px" width="400px" clip-path="url(#cut-off-bottom)" />
-            <image xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG/640px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG" x="-50" y="-50" height="400px" width="400px" style="opacity:0.2;" />
+            <image id="fgImg" transform="matrix(1 0 0 1 0 0)" onmousedown="selectElement(evt)" xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG/640px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG" x="-50" y="-50" height="400px" width="400px" clip-path="url(#cut-off-bottom)" />
+            <image id="bgImg" class="draggable" transform="matrix(1 0 0 1 0 0)" onmousedown="selectElement(evt)" xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG/640px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG" x="-50" y="-50" height="400px" width="400px" style="opacity:0.2;" />
             <circle cx="150" cy="150" r="3cm" stroke="black" stroke-width="0.1mm" stroke-dasharray="5,5" fill="transparent" />
 
             <!-- Tekst -->
