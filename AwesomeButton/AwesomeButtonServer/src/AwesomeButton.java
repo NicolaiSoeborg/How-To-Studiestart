@@ -55,8 +55,9 @@ public class AwesomeButton {
 	private void handleInput(DatagramPacket p) throws Exception {
 		String m = new String(p.getData(), 0, p.getLength());
 		
-		
-		if (m.startsWith("delay ")) { // Change delay
+		if (m.equals("voldown") || m.equals("volup")) {
+			SjVol(m);
+		} else if (m.startsWith("delay ")) { // Change delay
 			String[] parts = m.split(" ");
 			if (parts.length > 0) {
 				int delay = Integer.parseInt(parts[1]);
@@ -137,20 +138,11 @@ public class AwesomeButton {
 		return true;
 	}
 	
-	public synchronized void block(InetAddress ip) {
-		//blocked.add(ip);
-		//(new Blocker(this, ip, settings.getBlockDelay())).start();
-	}
-
-	public synchronized void unblock(InetAddress ip) {
-		//this.blocked.remove(ip);
-	}
-
 	private void prepareSound() {
 		synchronized (mutex) {
 			currentlyPlaying = true;
 			if (settings.hasSj() && currentlyPlaying) {
-				setSjVol(settings.getMinVol());
+				SjVol("voldown");
 			}
 		}
 	}
@@ -160,7 +152,7 @@ public class AwesomeButton {
 			currentlyPlaying = false;
 			if (settings.hasSj() && !currentlyPlaying) {
 				try {
-					setSjVol(settings.getMaxVol());				
+					SjVol("volup");			
 				} catch (Exception e) {	}
 			}
 		}
@@ -183,15 +175,16 @@ public class AwesomeButton {
 		settings.setSjPath(path);
 	}
 	
-	
-	private void setSjVol(int vol) {
-		if (vol < 0 || vol > 255) return;
+	private void SjVol(String vol) {
+		if (!(vol.equals("voldown") || vol.equals("volup"))) return;
 		String command = String.format(
-				"--execute=\"player.volume=%d\"", // TODO: Does not work on the newest version of SJ.
+				"--%s",
 				vol);
 		String[] args = { settings.getSjPath(), command };
 		try {
-			Runtime.getRuntime().exec(args);
+			for(int i=0; i<32; i++) {
+				Runtime.getRuntime().exec(args);
+			}
 		} catch (Exception e) {	}
 	}
 
