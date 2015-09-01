@@ -2,9 +2,6 @@ import java.io.File;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
@@ -22,13 +19,10 @@ public class AwesomeButton {
 
 	private DatagramSocket socket;
 	private boolean running = true;
-
-	private Set<InetAddress> blocked;
+	private Blocker blocker = new Blocker(Settings.STANDARD_DELAY);
 	private boolean currentlyPlaying = false;
 	private Object mutex = new Object();
-
 	public Settings settings = Settings.loadSettings();
-	
 	private AwesomeButtonGUI GUI;
 
 	public AwesomeButton() throws Exception {
@@ -40,11 +34,11 @@ public class AwesomeButton {
 		if (!Lib.init(SOUNDFILE))
 			GUI.println("Failed to initialize sounds.");
 		
-		this.blocked = Collections.synchronizedSet(new HashSet<InetAddress>());
-
 		//(new FileRequestServer()).start();
 		this.socket = new DatagramSocket(PORT);
 		GUI.println("Listening on "+InetAddress.getLocalHost()+":"+PORT);
+		
+		blocker.setDelay(settings.getBlockDelay());
 		
 		byte[] in = new byte[1024];
 		DatagramPacket p = new DatagramPacket(in, in.length);
@@ -104,13 +98,10 @@ public class AwesomeButton {
 	}
 	
 	private void requestSound(InetAddress ip, String soundString) throws Exception {
-		boolean canRequestSong = !blocked.contains(ip);
-		block(ip); // block for "delay" ms to avoid spam, etc
-		
-		if (canRequestSong && Lib.SOUNDS.containsKey(soundString)) {
+		if (blocker.checkAndBlock(ip) && Lib.SOUNDS.containsKey(soundString)) {
 			playSound(Lib.SOUNDS.get(soundString));
 		} else {
-			GUI.println("Could not play song: " + soundString);
+			GUI.println("Could not play song: " + soundString + ". Maybe IP is blocked?");
 		}
 	}
 
@@ -147,12 +138,12 @@ public class AwesomeButton {
 	}
 	
 	public synchronized void block(InetAddress ip) {
-		blocked.add(ip);
-		(new Blocker(this, ip, settings.getBlockDelay())).start();
+		//blocked.add(ip);
+		//(new Blocker(this, ip, settings.getBlockDelay())).start();
 	}
 
 	public synchronized void unblock(InetAddress ip) {
-		this.blocked.remove(ip);
+		//this.blocked.remove(ip);
 	}
 
 	private void prepareSound() {
