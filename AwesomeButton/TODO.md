@@ -4,7 +4,7 @@ TODO LIST
 The following is a todo list of what needs to be done:
 
 1. Support for newest SilverJuke version
-2. Play random sound
+2. ~~Play random sound~~ Added! Send command "random".
 3. More sound control
   1. Control sound clip volume
   2. Support for more sound formats?
