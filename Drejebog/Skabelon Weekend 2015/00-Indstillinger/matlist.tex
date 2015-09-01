@@ -1,0 +1,22 @@
+\newcount\tempnum
+\gdef\templob{}
+\gdef\lob{}
+\gdef\temppost{}
+\gdef\post{}
+
+\newenvironment{mats}[2]{
+\newcommand{\mat}[2]{
+\tempnum=##1
+\ifnum\tempnum=1
+\item ##2
+\else
+\item ##1 x ##2
+\fi
+
+} 
+\textbf{Materialer til #2}
+\begin{itemize}
+}
+{
+\end{itemize}
+}

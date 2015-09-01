@@ -1,0 +1,51 @@
+% define new column types: l,c,r med størrelse, e.g. C{2cm}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Dan Magic
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+\newcommand{\doublecell}[2][c]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\newcommand{\Alle}{\colorbox{Black}{\textcolor{white}{Alle}}\ }
+\newcommand{\KABS}{\colorbox{JungleGreen}{KABS}\ }
+\newcommand{\Ora}{\colorbox{Apricot}{Ora}\ }
+\newcommand{\Hippier}{\colorbox{Apricot}{Hippier}\ }
+\newcommand{\BIATCH}{\colorbox{Magenta}{\textcolor{white}{BIATCH}}\ }
+\newcommand{\Poppere}{\colorbox{Magenta}{\textcolor{white}{Poppere}}\ }
+\newcommand{\Johnny}{\colorbox{CadetBlue}{\textcolor{white}{Johnny}}\ }
+\newcommand{\Bad}{\colorbox{CadetBlue}{\textcolor{white}{Bad Boys}}\ }
+\newcommand{\Gabriel}{\colorbox{Brown}{\textcolor{white}{Gabriel}}\ }
+\newcommand{\Fransk}{\colorbox{Brown}{\textcolor{white}{Franskmænd}}\ }
+\newcommand{\YOLO}{\colorbox{DarkOrchid}{\textcolor{white}{YOLO}}\ }
+\newcommand{\Norder}{\colorbox{DarkOrchid}{\textcolor{white}{Nørder}}\ }
+\newcommand{\Lucyfar}{\colorbox{ForestGreen}{Lucyfar}\ }
+\newcommand{\Alternative}{\colorbox{ForestGreen}{Alternative}\ }
+\newcommand{\Hyttebombz}[1]{\colorbox{Maroon}{\textcolor{white}{Hyttebombz #1}}}
+
+\newcommand{\hilight}[1]{\colorbox{Yellow}{#1}}
+
+% Baggrundfarver i cells
+\newcommand{\cellgreen}{\cellcolor{green!50}\small{Grøn}}
+\newcommand{\cellyellow}{\cellcolor{yellow!25}\small{Gul}}
+\newcommand{\cellred}{\cellcolor{red!50}\small{Rød}}
+
+\newcounter{fakeFootnote}
+
+\newcommand{\ffn}{\addtocounter{fakeFootnote}{1}$^\textbf{\arabic{fakeFootnote}}$}
+
+% Flere farver
+%\newcommand{\Sami}{\colorbox{LimeGreen}{Sami}}
+%\newcommand{\Soborg}{\colorbox{Mahogany}{\textcolor{white}{Søborg}}}
+%\newcommand{\Ida}{\colorbox{OrangeRed}{Ida}}
+%\newcommand{\Henning}{\colorbox{ProcessBlue}{Henning}}
+%\newcommand{\Kathrine}{\colorbox{Rhodamine}{Kathrine}}
+%\newcommand{\Mikkel}{\colorbox{Yellow}{Mikkel}}
+%\newcommand{\Anine}{\colorbox{Salmon}{Anine}}
+%\newcommand{\Mads}{\colorbox{SpringGreen}{Mads}}
+%\newcommand{\Jonas}{\colorbox{Gray}{Jonas}}
+%\newcommand{\Jon}{\colorbox{Orange}{Jon}}
+%\newcommand{\Peter}{\colorbox{Red}{Peter}}

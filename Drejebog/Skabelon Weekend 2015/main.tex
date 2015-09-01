@@ -1,0 +1,99 @@
+\documentclass[11pt,a4paper,oneside,hidelinks]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[danish]{babel}
+\usepackage{parskip}    % pænere design (ingen indent)
+\usepackage{fancyhdr}   % fancy layout
+\usepackage{lastpage}   % lastpage
+\usepackage{titling}    % så vi kan bruge \thedate, \theauthor og \thetitle
+\usepackage{parcolumns} % minipage
+\usepackage{tabu,longtable} % <tabeller>
+\usepackage{multirow,multicol,booktabs}
+\usepackage{tabularx,dcolumn} %</tabeller>
+\usepackage{graphicx}  % grafik
+\usepackage{float,subfig}
+\usepackage{00-Indstillinger/slashbox}
+\usepackage[usenames,dvipsnames,table]{xcolor} % farver
+\usepackage[pdftex]{hyperref}
+\usepackage[nottoc]{tocbibind} % indholdsfortegnelse
+\usepackage{amsmath,amssymb} % math <3
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{tablefootnote}
+
+\newcommand{\lheadmsg}{Weekend 2015}
+\title{Weekend rustur 2015}
+\author{Drejebog tilhører NAVN}
+\date{August 2015}
+
+
+\pagestyle{fancy}
+\lhead{\lheadmsg} \rhead{\theauthor} % \chead{\thetitle}
+\lfoot{} \cfoot{} \rfoot{Side \thepage\ af \pageref{LastPage}}
+
+\begin{document}
+
+\input{00-Indstillinger/settings.tex}
+%%%%%%%%%%%%%%  FORSIDE  %%%%%%%%%%%%%%
+\begin{titlepage}
+\input{00-Indstillinger/forside.tex}
+\thispagestyle{empty} % remove (page) "1" from forside
+\end{titlepage}
+\tableofcontents
+
+%%%%%%%%%%%%%%  PRAKTISK  %%%%%%%%%%%%%%
+\input{diverse/Praktisk.tex}
+\input{diverse/RuslisteOpdelt.tex}
+\input{diverse/Tidsplan.tex}
+\input{diverse/Skemaer.tex}
+
+\clearpage
+\input{Fredag/Pakkeliste.tex}
+
+
+%%%%%%%%%%%%%%  FREDAG  %%%%%%%%%%%%%%
+\section*{Fredag}
+\renewcommand{\lheadmsg}{Fredag}
+\addcontentsline{toc}{section}{Fredag}
+\input{Fredag/Bustur.tex}
+\newpage
+\input{Fredag/Velkomst.tex}
+\input{Fredag/Vaerelsesfordeling.tex}
+\input{Fredag/Natloeb.tex}
+
+\clearpage
+
+%%%%%%%%%%%%%%  LØRDAG  %%%%%%%%%%%%%%
+\section*{Lørdag}
+\renewcommand{\lheadmsg}{Lørdag}
+\addcontentsline{toc}{section}{Lørdag}
+\input{Loerdag/Stjerneloeb.tex}
+\input{Loerdag/Vesteoverdragelse.tex}
+\input{Loerdag/Festaften.tex}
+
+\clearpage
+
+%%%%%%%%%%%%%%  SØNDAG  %%%%%%%%%%%%%%
+\section*{Søndag}
+\renewcommand{\lheadmsg}{Søndag}
+\addcontentsline{toc}{section}{Søndag}
+\input{Soendag/Rengoering.tex}
+\input{Soendag/BusHjem.tex}
+
+
+%%%%%%%%%%%%%%  GENERALT/ANDET  %%%%%%%%%%%%%%
+\input{diverse/Hvem_kan_hvad.tex}
+\input{diverse/Morgenrejsning.tex}
+
+\renewcommand{\lheadmsg}{Party}
+
+\input{diverse/Tipenvektor.tex}
+\clearpage
+\input{diverse/Den_nye_med_Taylor.tex}
+\clearpage
+\input{diverse/Rusliste.tex}
+%\clearpage
+%\input{00-Skal_printes/SamletMateriale.tex}
+%\clearpage
+%\input{00-Skal_printes/TipenvektorUDENSVAR.tex}
+%\clearpage
+
+\end{document}

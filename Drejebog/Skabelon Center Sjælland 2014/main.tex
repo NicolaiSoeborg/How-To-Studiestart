@@ -1,0 +1,189 @@
+\documentclass[11pt,a4paper]{article}
+%\usepackage[utf8]{inputenc}
+%\usepackage{natbib}
+%\usepackage{csquotes}
+%\usepackage{chronology}
+\usepackage[danish]{babel}
+\usepackage[T1]{fontenc}
+%\usepackage{titletoc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{color}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{subfig}
+\usepackage{amsmath,amssymb}
+\usepackage{tabu}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage[top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{xfrac}
+\setlist[itemize]{noitemsep, topsep=0pt}
+\setlist[enumerate]{noitemsep, topsep=0pt}
+\parindent=0cm
+\parskip=6pt
+
+% ----- FARVER / NAVNE -----
+\definecolor{headline}  {RGB}{ 68, 90,196}
+\definecolor{blue}      {RGB}{ 43,  0,255}
+\definecolor{farav}     {RGB}{100,230,204} 
+\definecolor{clint}     {RGB}{255,180,100} 
+\definecolor{randildo}  {RGB}{204,153,204} 
+\definecolor{karla}     {RGB}{153,180,255} 
+\definecolor{stive}     {RGB}{204,204,204}
+\definecolor{buddha}    {RGB}{146,235,100} 
+\definecolor{mighty}    {RGB}{255,153,153} 
+\definecolor{hemorides} {RGB}{255,255,102} 
+\definecolor{bums}      {RGB}{218,180,142} 
+
+\newlength{\Width}
+\newcommand{\MyColorBox}[2][red]{\settowidth{\Width}{#2}\colorbox{#1}{\parbox[b][0.7em][t]{\Width}{\centering#2}}}
+
+\newcommand{\Farav}{\MyColorBox[farav]{\textcolor{black}{Farav Ikmer}}\ }
+\newcommand{\farav}{\MyColorBox[farav]{\textcolor{black}{Farav}}\ }
+\newcommand{\cfarav}[1]{\cellcolor{farav}\textcolor{black}{#1}}
+\newcommand{\Clint}{\MyColorBox[clint]{\textcolor{black}{Clint Hardwood}}\ }
+\newcommand{\clint}{\MyColorBox[clint]{\textcolor{black}{Clint}}\ }
+\newcommand{\cclint}[1]{\cellcolor{clint}\textcolor{black}{#1}}
+\newcommand{\Randildo}{\MyColorBox[randildo]{\textcolor{black}{Randildo Bailando}}\ }
+\newcommand{\randildo}{\MyColorBox[randildo]{\textcolor{black}{Randildo}}\ }
+\newcommand{\crandildo}[1]{\cellcolor{randildo}\textcolor{black}{#1}}
+\newcommand{\Karla}{\MyColorBox[karla]{\textcolor{black}{Karla K. Kløvehjerte}}\ }
+\newcommand{\karla}{\MyColorBox[karla]{\textcolor{black}{Karla}}\ }
+\newcommand{\ckarla}[1]{\cellcolor{karla}\textcolor{black}{#1}}
+\newcommand{\Stive}{\MyColorBox[stive]{\textcolor{black}{Stive Irwin}}\ }
+\newcommand{\stive}{\MyColorBox[stive]{\textcolor{black}{Stive}}\ }
+\newcommand{\cstive}[1]{\cellcolor{stive}\textcolor{black}{#1}}
+\newcommand{\Buddha}{\MyColorBox[buddha]{\textcolor{black}{Buddha Karma Sutma}}\ }
+\newcommand{\buddha}{\MyColorBox[buddha]{\textcolor{black}{Buddha}}\ }
+\newcommand{\cbuddha}[1]{\cellcolor{buddha}\textcolor{black}{#1}}
+\newcommand{\Mighty}{\MyColorBox[mighty]{\textcolor{black}{Mighty O'LongJohn}}\ }
+\newcommand{\mighty}{\MyColorBox[mighty]{\textcolor{black}{Mighty}}\ }
+\newcommand{\cmighty}[1]{\cellcolor{mighty}\textcolor{black}{#1}}
+\newcommand{\Hemorides}{\MyColorBox[hemorides]{\textcolor{black}{Hemorides af Ølympen}}\ }
+\newcommand{\hemorides}{\MyColorBox[hemorides]{\textcolor{black}{Hemorides}}\ }
+\newcommand{\chemorides}[1]{\cellcolor{hemorides}\textcolor{black}{#1}}
+
+\newcommand{\Hyttebums}[1]{\MyColorBox[bums]{\textcolor{black}{#1}}\ }
+\newcommand{\Hb}[1]{\cellcolor{bums}\textcolor{black}{#1}}
+
+
+
+\newcommand{\Hashtag}[1]{\textcolor{blue}{\underline{\smash{\#{#1}}}}}
+\newcommand{\Overskrift}[1]{{\colorbox{headline}{\textbf{\sffamily\textcolor{white}{\fontsize{36pt}{1em}\selectfont #1}}} \hspace{.5em}} \addcontentsline{toc}{section}{#1}}
+
+\usepackage{fontspec}
+\setmainfont[%
+    Path            =fonts/,%
+    BoldFont        =LinLibertine-Bold.ttf,%
+    ItalicFont      =LinLibertine-Italic.ttf,%
+    BoldItalicFont  =LinLibertine-BoldItalic.ttf%
+    ]{LinLibertine-Regular.ttf}
+\setsansfont[%
+    Path            =fonts/,%
+    BoldFont        =Signika-Semibold.ttf%
+    ]{Signika-Light.ttf}
+
+%\renewcommand*{\familydefault}{\sfdefault}
+\usepackage{titlesec}
+\titleformat{\section}{\color{headline}\sffamily\huge\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\color{headline}\sffamily\Large\bfseries}{\thesubsection}{1em}{}{}
+\titleformat{\subsubsection}{\color{headline}\sffamily\large\bfseries}{\thesubsubsection}{1em}{}{}
+
+\usepackage{dcolumn}
+\usepackage{multirow}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+\newcommand{\doublecell}[2][c]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+
+% ----- TITEL/FORFATTER/DATO -----
+\title{Drejebog Center Sjælland 2014}
+\def\forfatter{\Hyttebums{De Stive Sømænd}}
+\author{\forfatter}
+\date{August 2014}
+
+% ----- SIDEHOVED/SIDEFOD -----
+\usepackage{fancyhdr}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+\lhead{\textsf{\forfatter \\ Drejebog}}
+\chead{}
+\rhead{\textsf{Diskocenter Sjælland\\Oktober 2014}}
+\lfoot{}
+\cfoot{}
+\rfoot{\textsf{Side \thepage\ af \pageref{LastPage}}}
+
+% ----- START DOKUMENT -----
+\begin{document}
+
+\input{tex/00-Forside.tex}
+
+\tableofcontents
+
+\newpage
+\Overskrift{VIGTIGE TING! (M/K)}
+\input{tex/div/01-Oversigt.tex}
+\clearpage
+\input{tex/div/02-RusserListe.tex}
+\clearpage
+\input{tex/div/03-Tidsplan.tex}
+\vspace{4 cm}
+\input{tex/div/04-Kaosmøder.tex}
+\input{tex/div/05-Morgenrejsning.tex}
+\input{tex/div/12-Sovepladser.tex}
+
+\clearpage
+\Overskrift{Mandag}
+\input{tex/01-Mandag/ToDo_Ankomst.tex}
+\newpage
+\input{tex/01-Mandag/Bussen.tex}
+\input{tex/01-Mandag/Velkomst.tex}
+\input{tex/01-Mandag/Natløb.tex}
+
+\clearpage
+\Overskrift{Tirsdag}
+\input{tex/02-Tirsdag/Krigsløb.tex}
+\input{tex/02-Tirsdag/Ingenioropgave.tex}
+\input{tex/02-Tirsdag/MandeAften.tex}
+\input{tex/02-Tirsdag/DameAften.tex}
+
+\clearpage
+\Overskrift{Onsdag}
+\input{tex/03-Onsdag/DTU-løb.tex}
+\input{tex/03-Onsdag/IDA.tex}
+\newpage
+\input{tex/03-Onsdag/FNtaler.tex}
+
+\clearpage
+\Overskrift{Torsdag}
+\input{tex/04-Torsdag/Festaften.tex}
+
+\clearpage
+\Overskrift{Fredag}
+\input{tex/05-Fredag/Rengøring.tex}
+\input{tex/05-Fredag/Pizzaliste.tex}
+%\input{tex/05-Fredag/Hjemturen.tex} % indeholder intet spændende
+
+\clearpage
+\Overskrift{Øvrigt}
+\input{tex/div/06-RISK.tex}
+$$$$ % "snyde" linjeskift så "Køkken" ryger ned på ny side
+\input{tex/div/07-Køkken.tex}
+\input{tex/div/13-Kompetencelisten.tex}
+%\input{tex/div/08-Vision.tex}
+%\input{tex/div/09-MaterialeListe.tex}
+\input{tex/div/10-Forstehjalp.tex}
+\input{tex/div/11-Koerselsvejledninger.tex}
+\input{tex/div/99-Praktisk.tex} % skal være til sidst (eller helt i starten)
+
+\end{document}

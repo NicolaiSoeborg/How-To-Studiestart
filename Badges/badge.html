@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Badger, badger, badger, mushroom, mushroom!</title>
+  <script type='text/javascript' src='jquery-2.1.4.min.js'></script>
+  <style type='text/css'>
+    <!-- Ingen stil :/ -->
+  </style>
+  
+<script type='text/javascript'>//<![CDATA[
+
+function setEdit(elm) {
+    $("#txtItem").val( elm.id );
+    $("#txtText").val( elm.innerHTML );
+    $("#txtFont").val( $(elm).css('font-family') );
+    $("#txtSize").val( $(elm).css('font-size') );
+    $("#txtColor").val( rgbToHex($(elm).css('color')) );
+}
+
+function save() {
+    // hack til at vælge det valgte tekstfeltet i svg billedet:
+    var elm = $("#" + $("#txtItem").val() )[0];
+    
+    elm.innerHTML = $("#txtText").val(); // tekst
+
+    $(elm).css('font-family', $("#txtFont").val()); // font
+
+    //elm.style['font-size'] = $("#txtSize").val(); 
+    $(elm).css('font-size', $("#txtSize").val()); // størrelse
+
+//console.log( $("#txtColor").val() );
+    $(elm).css('fill', $("#txtColor").val()); // farve
+}
+
+// HJÆLPE METODER
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(rgb) {
+    // split from rbg(x, y,z) to [x, y, z]
+    rgb = rgb.replace(/[^\d,]/g, '').split(',');
+    
+    // assign r = x, g = y, b = z
+    var r = rgb[0], g = rgb[1], b = rgb[2];
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+//]]> 
+</script>
+</head>
+<body>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="float: left;">
+        <svg version="1.1" baseProfile="full" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <clipPath id="cut-off-bottom">
+                    <circle cx="150" cy="150" r="2.5cm" stroke="black" stroke-width="0.1mm" fill="transparent" />
+                </clipPath>
+                <path id="lower-path" d="M 60, 150 c 0, 120, 180, 120, 180, 0" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
+                <path id="upper-path" d="M 80, 150 c 0, -100, 140, -100, 140, 0" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
+            </defs>
+            <image xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG/640px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG" x="-50" y="-50" height="400px" width="400px" clip-path="url(#cut-off-bottom)" />
+            <image xlink:href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG/640px-Gullfoss%2C_Su%C3%B0urland%2C_Islandia%2C_2014-08-16%2C_DD_123.JPG" x="-50" y="-50" height="400px" width="400px" style="opacity:0.2;" />
+            <circle cx="150" cy="150" r="3cm" stroke="black" stroke-width="0.1mm" stroke-dasharray="5,5" fill="transparent" />
+
+            <!-- Tekst -->
+            <g font-size="25" fill="white" text-anchor="middle">
+                <text>
+                    <textPath xlink:href="#upper-path" startOffset="50%" id="TextTop" onclick="setEdit(this)">OPtur 2015</textPath>
+                    <textPath xlink:href="#lower-path" startOffset="50%" id="TextBottom" onclick="setEdit(this)">C. Elektroteknologi</textPath>
+                </text>
+            </g>
+            <text x="150" y="175" font-size="60" text-anchor="middle" fill="white" id="TextMiddle" onclick="setEdit(this)">DTU</text>
+        </svg>
+    </div>
+    <div>
+        <input type="hidden" id="txtItem"><br>
+        Text: <input type="text" id="txtText"><br>
+        Font: <input type="text" id="txtFont"><br>
+        Size: <input type="text" id="txtSize"><br>
+        Color: <input type="color" id="txtColor"><br>
+        <button type="button" onclick="save();">Save</button>
+    </div>
+</div>
+</body>
+</html>
