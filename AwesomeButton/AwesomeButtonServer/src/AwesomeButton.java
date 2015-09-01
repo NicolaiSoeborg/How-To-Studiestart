@@ -17,6 +17,7 @@ public class AwesomeButton {
 	public final static String SOUNDFILE = SOUNDFOLDER+"sounds.txt";
 	private final static int PORT = 1990;
 
+	private Random rnd = new Random();
 	private DatagramSocket socket;
 	private boolean running = true;
 	private Blocker blocker = new Blocker(Settings.STANDARD_DELAY);
@@ -91,7 +92,7 @@ public class AwesomeButton {
 		
 			String[] funSounds = { "buba", "fejres", "erdermere", "hahgay", "herkuladedrik", "glaedermig", "jeppekgrin", "jeppekbosse", "kamelaasaa", "mkill", "shit", "liderlig", "trolo", "jager", "denergraa", "aaaah" };
 			if (m.equals("random"))
-				m = funSounds[ new Random().nextInt(funSounds.length) ];
+				m = funSounds[ rnd.nextInt(funSounds.length) ];
 				
 			GUI.println("Received \""+m+"\" from "+p.getAddress().toString());
 			requestSound(p.getAddress(), m);
