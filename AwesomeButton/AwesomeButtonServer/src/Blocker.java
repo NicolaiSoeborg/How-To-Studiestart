@@ -1,6 +1,5 @@
 import java.net.InetAddress;
 
-
 public class Blocker extends Thread {
 	private AwesomeButton main;
 	private InetAddress ip;
@@ -21,4 +20,6 @@ public class Blocker extends Thread {
 		}
 		main.unblock(ip);
 	}
+	
+	
 }

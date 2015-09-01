@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -17,7 +16,7 @@ import javax.sound.sampled.LineListener;
 
 @SuppressWarnings("serial")
 public class AwesomeButton {
-	public final static String SOUNDFOLDER = "sounds/";
+	public final static String SOUNDFOLDER = "../sounds/";
 	public final static String SOUNDFILE = SOUNDFOLDER+"sounds.txt";
 	private final static int PORT = 1990;
 
@@ -61,7 +60,8 @@ public class AwesomeButton {
 
 	private void handleInput(DatagramPacket p) throws Exception {
 		String m = new String(p.getData(), 0, p.getLength());
-
+		
+		
 		if (m.startsWith("delay ")) { // Change delay
 			String[] parts = m.split(" ");
 			if (parts.length > 0) {
@@ -94,20 +94,23 @@ public class AwesomeButton {
 			running = false;
 		} else { // play song
 		
-			String[] funSounds = { "buba", "fejres", "erdermere", "hahgay", "herkuladedrik", "glaedermig", "jeppekgrin", "jeppekbosse", "kamelaasaa", "mkill", "shit", "liderlig", "trolo", "jager", "denergraa", "aaaah", "denNyeMedTaylor" };
+			String[] funSounds = { "buba", "fejres", "erdermere", "hahgay", "herkuladedrik", "glaedermig", "jeppekgrin", "jeppekbosse", "kamelaasaa", "mkill", "shit", "liderlig", "trolo", "jager", "denergraa", "aaaah" };
 			if (m.equals("random"))
 				m = funSounds[ new Random().nextInt(funSounds.length) ];
 				
 			GUI.println("Received \""+m+"\" from "+p.getAddress().toString());
-			if (Lib.SOUNDS.containsKey(m)) { // Play a sound
-				requestSound(p.getAddress(), Lib.SOUNDS.get(m));
-			}
+			requestSound(p.getAddress(), m);
 		}
 	}
-
-	private void requestSound(InetAddress ip, Sound sound) throws Exception {
-		if (!blocked.contains(ip) && playSound(sound)) {
-			block(ip);
+	
+	private void requestSound(InetAddress ip, String soundString) throws Exception {
+		boolean canRequestSong = !blocked.contains(ip);
+		block(ip); // block for "delay" ms to avoid spam, etc
+		
+		if (canRequestSong && Lib.SOUNDS.containsKey(soundString)) {
+			playSound(Lib.SOUNDS.get(soundString));
+		} else {
+			GUI.println("Could not play song: " + soundString);
 		}
 	}
 
@@ -142,9 +145,9 @@ public class AwesomeButton {
 		});
 		return true;
 	}
-
+	
 	public synchronized void block(InetAddress ip) {
-		this.blocked.add(ip);
+		blocked.add(ip);
 		(new Blocker(this, ip, settings.getBlockDelay())).start();
 	}
 

@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,8 +11,9 @@ public class Lib {
 	public static Map<String,Sound> SOUNDS = new TreeMap<String, Sound>();
 	
 	public static boolean init(String soundFile) {
+		InputStream stream = null;
 		try {
-			InputStream stream = new FileInputStream(new File(soundFile));
+			stream = new FileInputStream(new File(soundFile));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
