@@ -15,7 +15,7 @@ function setEdit(elm) {
     $("#txtText").val( elm.innerHTML );
     $("#txtFont").val( $(elm).css('font-family') );
     $("#txtSize").val( $(elm).css('font-size') );
-    $("#txtColor").val( rgbToHex($(elm).css('color')) );
+    $("#txtColor").val( rgbToHex($(elm).css('fill')) );
 }
 
 function save() {
@@ -32,6 +32,16 @@ function save() {
     $(elm).css('fill', $("#txtColor").val()); // farve
 }
 
+function dropHandler(file) {
+    file.stopPropagation(); // don't change webpage to image file
+    //console.log( file.target ); hvis man vil bytte billeder ud, skal man ændre target til file
+    
+    var localFilename = file.dataTransfer.files[0].name; 
+    $('#bgImg')[0].href.baseVal = localFilename;
+    $('#fgImg')[0].href.baseVal = localFilename;
+    
+    //file.dataTransfer.files[0] // bemærk problemer med Chrome Dev Console: http://stackoverflow.com/a/11573873
+}
 
 function getSelectedElements(evt) {
     var BgAndFg = [$('#bgImg')[0],$('#fgImg')[0]];
@@ -65,7 +75,6 @@ function selectElement(evt) {
     });
 }
 
-var test = -50;
 function moveElement(evt) {
     var dx = evt.clientX - currentX;
     var dy = evt.clientY - currentY;   
@@ -92,7 +101,7 @@ function deselectElement(evt) {
 
 // HJÆLPE METODER
 function componentToHex(c) {
-    var hex = c.toString(16);
+    var hex = parseInt(c).toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
 
@@ -108,7 +117,7 @@ function rgbToHex(rgb) {
 //]]> 
 </script>
 </head>
-<body>
+<body ondragover="event.preventDefault();" ondrop="event.preventDefault(); dropHandler(event)">
   <div style="width: 100%; overflow: hidden;">
     <div style="float: left;">
         <svg version="1.1" baseProfile="full" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
@@ -119,8 +128,8 @@ function rgbToHex(rgb) {
                 <path id="lower-path" d="M 60, 150 c 0, 120, 180, 120, 180, 0" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
                 <path id="upper-path" d="M 80, 150 c 0, -100, 140, -100, 140, 0" stroke="black" fill="green" stroke-width="2" fill-opacity="0.5" />
             </defs>
-            <image id="fgImg" transform="matrix(1 0 0 1 0 0)" xlink:href="pic.JPG" x="-50" y="-50" height="400px" width="400px" clip-path="url(#cut-off-bottom)" />
-            <image id="bgImg" class="draggable" transform="matrix(1 0 0 1 0 0)" onmousedown="selectElement(evt)" xlink:href="pic.JPG" x="-50" y="-50" height="400px" width="400px" style="opacity:0.2;" />
+            <image id="fgImg" xlink:href="pic.JPG" x="-50" y="-50" height="400px" width="400px" clip-path="url(#cut-off-bottom)" />
+            <image id="bgImg" class="draggable" onmousedown="selectElement(evt)" xlink:href="pic.JPG" x="-50" y="-50" height="400px" width="400px" style="opacity:0.2;" />
             <circle cx="150" cy="150" r="3cm" stroke="black" stroke-width="0.1mm" stroke-dasharray="5,5" fill="transparent" />
 
             <!-- Tekst -->
@@ -138,7 +147,7 @@ function rgbToHex(rgb) {
         Text: <input type="text" id="txtText"><br>
         Font: <input type="text" id="txtFont"><br>
         Size: <input type="text" id="txtSize"><br>
-        Color: <input type="color" id="txtColor"><br>
+        Color: <input type="color" id="txtColor" value="#ffffff"><br>
         <button type="button" onclick="save();">Save</button>
     </div>
 </div>
